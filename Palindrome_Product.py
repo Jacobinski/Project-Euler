@@ -2,34 +2,28 @@ from time import clock
 
 start = clock()
 
-a = 99
-b = 99
+# 999 * 999 = 988,001 
+counter = 988-1 # This will be mirrored to make decreasing palindromes
+multiples = list(reversed(range(100,999+1)))
+output = []
 found = False
 
-def isPalindrome(num):
-    strNum = str(num)
-    length = len(strNum)
-    if length % 2 == 0:
-        start = strNum[:length//2]
-        end = strNum[-length//2:]
-    else:
-        start = strNum[:length//2]
-        end = strNum[-length//2+1:]
-    end = end[::-1]  # Reverse
-    if start == end:
-        return True
-    else: 
-        return False
+def makePalindrome(num):
+    start = str(num)
+    end = start[::-1] # Reverse
+    return int(start+end)
 
 while (found != True):
-    check = a * b;
-    if isPalindrome(check):
-        print('a =',a,'b =',b,'Product =',check)
-        found = True;
-    elif (a-1)*b > a*(b-1):
-        a = a - 1
-    else:
-        b = b - 1       
-
+    num = makePalindrome(counter)
+    div = 0
+    for i in multiples:
+        if (num/i).is_integer() and (num/i > 99) and (num/i < 1000):
+            output.append(i)
+            output.append(num/i)
+            found = True
+            break 
+    counter = counter - 1    
+    
+print(output[0],'*',output[1],'=',output[0]*output[1])
 end = clock()
-print(end-start)
+print('Computation Time:',end-start,'seconds')
