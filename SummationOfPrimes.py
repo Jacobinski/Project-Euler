@@ -1,21 +1,23 @@
+# Non-trial division implementation of the sieve
+# http://stackoverflow.com/questions/19345627/python-prime-numbers-sieve-of-eratosthenes
+
 from time import clock
 
 
 start = clock()
 
-i = 2
-primes = [2]
 limit = 2000000
-output = 2  # Automatically add first prime
+sieve = [True] * (limit + 1)
+primes = []
 
-while i < limit:
-    if all(i%j != 0 for j in primes):
-        primes.append(i)
-        output += i
-        print(i)
-    i += 1
+for p in range (2, limit +1):
+    if sieve[p] is True:
+        primes.append(p)
+        for n in range (p, limit + 1, p):
+            sieve[n] = False  #All prime multiples = false
 
 end = clock()
-print('The sum of the primes below {} is {}'.format(limit,output))
+
+print('The sum of the primes below {} is {}'.format(limit,sum(primes)))
 print('This computation took {} seconds'.format(end-start))
 
