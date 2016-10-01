@@ -3,7 +3,6 @@
 
 from time import clock
 
-
 start = clock()
 
 limit = 2000000

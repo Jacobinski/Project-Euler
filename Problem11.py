@@ -1,3 +1,11 @@
+# This is the 11th problem for Project Euler
+# We need to find the largest product of 4 adjacent (diagonal/vertical/horizontal) numbers
+# in the array given below. Indices will be 1-indexed if we attempt to look at the 
+# position from the 'index1' 'index2' variables. 
+
+from time import clock
+start = clock()
+
 M = []
 M.append("08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08")
 M.append("49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00")
@@ -23,41 +31,50 @@ M.append("01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48")
 # Modify the array to get individual elements
 size = len(M)
 for i in range(size):
-   # print(M[i])
-    M[i] = M[i].split()
-    print(M[i])
+    M[i] =[int(n) for n in M[i].split()]
 
 # Get variables
-sum = 0 # The current largest sum
-direction = '' # The current direction. Only look right, down, diagonal down right
-repeats = 20 - 3 # We will only look at the the top 17x17 matrix.  
+sum = 0 # The current largest product
+direction = '' # The current direction. right, down, diag right, diag left
 index1 = 0 # First matrix index
 index2 = 0 # Second matrix index
 
-for i in range(repeats):
-    for j in range(repeats):
-       i = int(i)  # Convert from tuple
-       j = int(j)  # Convert from tuple
-       r = M[i,j] + M[i+1,j] + M[i+2,j] + M[i+3,j] # Right addition
-       d = M[i,j] + M[i,j+1] + M[i,j+2] + M[i,j+3] # Down addition
-       dr = M[i,j] + M[i+1,j+1] + M[i+2,j+2] + M[i+3,j+3] # Diagonal addition
-       if r > sum:
-           sum = r
-           direction = 'r'
-           index1 = i
-           index2 = j
-       if d > sum:
-           sum = d
-           direction = 'd'
-           index1 = i
-           index2 = j
-       if dr > sum:
-           sum = dr
-           direction = 'dr'
-           index1 = i
-           index2 = j
+for i in range(size):
+    for j in range(size):
+       # Compute the right product
+       if i < 17:
+           r = M[i][j] * M[i+1][j] * M[i+2][j] * M[i+3][j] # Right product
+           if r > sum:
+               sum = r
+               direction = 'r'
+               index1 = i+1
+               index2 = j+1
+       # Compute the down product
+       if j < 17:
+           d = M[i][j] * M[i][j+1] * M[i][j+2] * M[i][j+3] # Down product
+           if d > sum:
+               sum = d
+               direction = 'd'
+               index1 = i+1
+               index2 = j+1
+       # Compute the diagonal right / product
+       if i < 17 and j < 17:
+           dr = M[i][j] * M[i+1][j+1] * M[i+2][j+2] * M[i+3][j+3] # Diagonal product
+           if dr > sum:
+               sum = dr
+               direction = 'dr'
+               index1 = i+1
+               index2 = j+1
+       # Compute the diagonal left \ product
+       if i > 4 and j < 17:
+           dl = M[i][j] * M[i-1][j+1] * M[i-2][j+2] * M[i-3][j+3]
+           if dl > sum:
+               sum = dl
+               direction = 'dl'
+               index1 = i+1
+               index2 = j+1
 
-print(sum)
-print(direction)
-print(i)
-print(j)
+end = clock()
+
+print('The largest sum is {}'.format(sum))
+print('This computation took {} seconds'.format(end-start))
