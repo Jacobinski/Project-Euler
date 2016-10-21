@@ -4,13 +4,13 @@ from time import clock
 def numLen(integer):
     output = 0
     array = [int(i) for i in str(integer)]
-    length = len(array)
+    length = len(array) 
     if length is 1:
         dict = { 0:0 ,1:3 ,2:3 , 3:5, 4:4, 5:4, 6:3, 7:5, 8:5, 9:4 }
         output += dict[integer]
     elif length is 2:
         if integer < 20: # 10-19
-            dict = { 10:3, 11:6, 12:6, 13:8, 14:8 , 15:7, 16:7, 17:9, 18:9, 19:8 }
+            dict = { 10:3, 11:6, 12:6, 13:8, 14:8 , 15:7, 16:7, 17:9, 18:8, 19:8 }
             output += dict[integer]
         elif integer < 30: # 20-29
             output += 6 + numLen(integer-20)
@@ -51,6 +51,8 @@ def numLen(integer):
             output += 4 + 7 + numLen(integer-900)
     elif length is 4:
         output += 3 + 8
+
+    print array,"has",output,"numbers"
     return output
 
 start = clock()
